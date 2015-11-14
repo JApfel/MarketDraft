@@ -40,47 +40,10 @@
 		)
 	);
 	
-	$router->add('/signup/attorney',
-		array(
-		   'controller' => 'auth',
-		   'action'     => 'providerSignup'
-		)
-	);
-	
 	$router->add('/signup',
 		array(
 		   'controller' => 'auth',
 		   'action'     => 'signup'
-		)
-	);
-	
-	$router->add('/forgotPassword',
-		array(
-		   'controller' => 'auth',
-		   'action'     => 'forgotPassword'
-		)
-	);
-	
-	$router->add('/resetPassword',
-		array(
-		   'controller' => 'auth',
-		   'action'     => 'resetPassword'
-		)
-	);
-	
-	$router->add('/updateStatus',
-		array(
-		   'controller' => 'auth',
-		   'action'     => 'updateStatus'
-		)
-	);
-	
-	// admin
-	
-	$router->add('/admin',
-		array(
-		   'controller' => 'admin',
-		   'action'     => 'index'
 		)
 	);
 	
@@ -90,109 +53,6 @@
 		array(
 		   'controller' => 'help',
 		   'action'     => 'about'
-		)
-	);
-	
-	$router->add('/forlawyers',
-		array(
-		   'controller' => 'help',
-		   'action'     => 'forLawyers'
-		)
-	);
-	
-	// messages
-	
-	$router->add('/messages/create',
-		array(
-		   'controller' => 'messages',
-		   'action'     => 'create'
-		)
-	);
-	
-	$router->add('/messages',
-		array(
-		   'controller' => 'messages',
-		   'action'     => 'index'
-		)
-	);
-	
-	// posts
-	
-	$router->add('/posts/create',
-		array(
-		   'controller' => 'posts',
-		   'action'     => 'create'
-		)
-	);
-	
-	$router->add('/posts/{id}/delete',
-		array(
-		   'controller' => 'posts',
-		   'action'     => 'delete'
-		)
-	);
-	
-	// rooms
-	
-	$router->add('/rooms/create',
-		array(
-		   'controller' => 'rooms',
-		   'action'     => 'create'
-		)
-	);
-	
-	$router->add('/rooms/{id}',
-		array(
-		   'controller' => 'rooms',
-		   'action'     => 'show'
-		)
-	);
-	
-	// appointments
-	
-	$router->add('/appointments/create',
-		array(
-		   'controller' => 'appointments',
-		   'action'     => 'create'
-		)
-	);
-	
-	// reviews
-	
-	$router->add('/reviews/create',
-		array(
-		   'controller' => 'reviews',
-		   'action'     => 'create'
-		)
-	);
-	
-	// providers
-	
-	$router->add('/attorneys/{id}/:action',
-		array(
-		   'controller' => 'providers',
-		   'action'     => 2
-		)
-	);
-	
-	$router->add('/attorneys/{id}',
-		array(
-		   'controller' => 'providers',
-		   'action'     => 'show'
-		)
-	);
-	
-	$router->add('/dashboard/:action',
-		array(
-		   'controller' => 'providers',
-		   'action'     => 1
-		)
-	);
-	
-	$router->add('/dashboard',
-		array(
-		   'controller' => 'providers',
-		   'action'     => 'index'
 		)
 	);
 	
