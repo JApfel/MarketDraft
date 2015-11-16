@@ -47,6 +47,43 @@
 		)
 	);
 	
+	// leagues
+	
+	$router->add('/leagues',
+		array(
+		   'controller' => 'leagues',
+		   'action'     => 'index'
+		)
+	);
+	
+	$router->add('/leagues/{id}/:action',
+		array(
+		   'controller' => 'leagues',
+		   'action'     => '2'
+		)
+	);
+	
+	$router->add('/leagues/{id}',
+		array(
+		   'controller' => 'leagues',
+		   'action'     => 'show'
+		)
+	);
+	
+	$router->add('/leagues/new',
+		array(
+		   'controller' => 'leagues',
+		   'action'     => 'new'
+		)
+	);
+	
+	$router->add('/leagues/create',
+		array(
+		   'controller' => 'leagues',
+		   'action'     => 'create'
+		)
+	);
+	
 	// help
 	
 	$router->add('/about',
@@ -76,9 +113,10 @@
 	
 	$router->notFound(
 		array(
-			"controller" => "errors",
-			"action" => "show404"
-	));
+		   'controller' => 'index',
+		   'action'     => 'info'
+		)
+	);
 	
 	$router->handle();
 	

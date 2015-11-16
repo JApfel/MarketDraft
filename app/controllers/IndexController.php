@@ -9,8 +9,7 @@
 		}
 		
 		function testAction()	{
-			$provider = Providers::findFirst("id = '1'");
-			print_r($provider);
+			
 		}
 		
 		function infoAction()	{

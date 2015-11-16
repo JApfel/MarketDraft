@@ -4,7 +4,7 @@
 	
 	class Users extends Model	{
 		
-		public $id, $fname, $lname, $email, $password, $salt, $online, $status, $image, $timezone, $created_at, $updated_at;
+		public $id, $username, $email, $password, $salt, $created_at, $updated_at;
 		
 		function beforeValidationOnCreate()	{
 			$this->disableChecks();
@@ -35,16 +35,11 @@
 		}
 		
 		function initialize()	{
-			$this->hasMany('id', 'Reviews', 'uid', array(
-				'foreignKey' => array(
-					'action' => Phalcon\Mvc\Model\Relation::ACTION_CASCADE
-				)
-			));
-			$this->hasMany('id', 'Payments', 'uid', array(
-				'foreignKey' => array(
-					'action' => Phalcon\Mvc\Model\Relation::ACTION_CASCADE
-				)
-			));
+			$this->hasMany('id', 'UserLeagues', 'uid', array(
+                'foreignKey' => array(
+                    'action' => Phalcon\Mvc\Model\Relation::ACTION_CASCADE
+                )
+            ));
 		}
 	}
 ?>

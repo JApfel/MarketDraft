@@ -5,49 +5,35 @@
 	class AuthController extends Controller	{
 	
 		function loginAction()	{
-			if($this->session->has('user') || $this->session->has('provider'))	{
-				$this->redirect();
-			}
-			
+		
 			if($this->request->isPost())	{
-				$email = $this->request->getPost('email');
-				$password = $this->request->getPost('password');
+				$fields = array('username', 'password');
+				
+				foreach($fields as $field)	{
+					${$field} = $this->request->getPost($field);
+				}
 				
 				$errors = array();
 				
-				if($password && $email)	{
-					$user = Users::findFirst("email = '$email'");
-					
-					if(!$user)	{
-						$provider = Providers::findFirst("email = '$email'");
-						if(!$provider)	{
-							array_push($errors, "The email is not registered.");
-						}
-						else	{
-							if($provider->verify($password))	{
-								$this->session->set("provider", $provider->id);
-								$this->redirect();
-							}
-							else	{
-								array_push($errors, "The password entered is incorrect.");
-							}
-						}
-					}
-					else	{
-						if($user->verify($password))	{
-							$this->session->set("user", $user->id);
-							$this->redirect();
-						}
-						else	{
-							array_push($errors, "The password entered is incorrect.");
-						}
-					}
-				}
-				else	{
-					array_push($errors, "Both fields must be entered.");
-				}
-				
-				$this->view->errors = $errors;
+				if($password && $username) {
+                    $user = Users::findFirst("username = '$username'");
+                     
+                    if($user)  {
+						if($user->verify($password)) {
+                            $this->session->set("user", $user->id);
+                            $this->redirect();
+                        }
+                        else    {
+                            array_push($errors, "The password entered is incorrect.");
+                        }
+                    }
+                    else    {
+                        array_push($errors, "The username is not registered.");
+                    }
+                }
+                else    {
+                    array_push($errors, "Both fields must be entered.");
+                }
 			}
 			
 			$this->view->signedUp = $this->request->hasQuery('success');
@@ -58,23 +44,18 @@
 		function signupAction()	{
 			
 			if($this->request->isPost())	{
-				$fname = $this->request->getPost('fname');
-				$lname = $this->request->getPost('lname');
-				$email = $this->request->getPost('email');
-				$password = $this->request->getPost('password');
-				$cpassword = $this->request->getPost('cpassword');
-				$timezone = $this->request->getPost('timezone');
+				$fields = array('username', 'email', 'password', 'cpassword');
 				
-				$errors = array();
-				
-				$fields = array('fname', 'lname', 'email', 'password', 'cpassword', 'timezone');
 				$fieldsEntered = 0;
 				
 				foreach($fields as $field)	{
+					${$field} = $this->request->getPost($field);
 					if(trim(${$field}) != '')	{
 						$fieldsEntered++;
 					}
 				}
+				
+				$errors = array();
 				
 				if($fieldsEntered < count($fields))	{
 					array_push($errors, "Some fields were not entered.");
@@ -92,23 +73,20 @@
 					array_push($errors, "Passwords don't match.");
 				}
 				
-				$user = Users::findFirst("email = '$email'");
+				$user = Users::findFirst("email = '$email' OR username = '$username'");
 				
 				if($user)	{
-					array_push($errors, "Email is already taken.");
+					array_push($errors, "Email or username is already taken.");
 				}
 				
 				if(!count($errors))	{
 					$salt = bin2hex(openssl_random_pseudo_bytes(16, $cstrong));
 					
 					$user = new Users();
-					$user->fname = $fname;
-					$user->lname = $lname;
+					$user->username = $username;
 					$user->email = $email;
 					$user->salt = $salt;
 					$user->password = md5($salt . $password);
-					$user->timezone = $timezone;
-					$user->status = 1;
 					
 					if($user->create())	{
 						$this->response->redirect('/login?success');
@@ -121,9 +99,6 @@
 				
 				$this->view->errors = $errors;
 			}
-			
-			$timezones = require("../app/config/timezones.php");
-			$this->view->timezones = $timezones;
 			
 			echo $this->view->render('auth', 'signup');
 		}
